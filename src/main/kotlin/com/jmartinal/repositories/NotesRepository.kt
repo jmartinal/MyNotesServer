@@ -8,11 +8,9 @@ object NotesRepository {
     private var currentId: Long = 1L
 
     // CREATE
-    fun save(note: Note): Note {
-        val noteToSave = note.copy(id = currentId++)
-        notes.add(noteToSave)
-        return noteToSave
-    }
+    fun save(note: Note): Note = note
+        .copy(id = currentId++)
+        .also(notes::add)
 
     // READ
     fun getAll(): List<Note> = notes
@@ -20,26 +18,16 @@ object NotesRepository {
     fun getById(id: Long): Note? = notes.find { it.id == id }
 
     // UPDATE
-    fun update(note: Note): Boolean {
-        val index = notes.indexOfFirst { it.id == note.id }
-        return when(index >= 0) {
-            true -> {
-                notes[index] = note
-                true
-            }
-            false -> false
-        }
-    }
+    fun update(note: Note): Boolean = notes
+        .indexOfFirst { it.id == note.id }
+        .takeIf { it >= 0 }
+        ?.also { notes[it] = note }
+        .let { it != null }
 
     // DELETE
-    fun delete(id: Long): Boolean {
-        val index = notes.indexOfFirst { it.id == id }
-        return when(index >= 0) {
-            true -> {
-                notes.removeAt(index)
-                true
-            }
-            false -> false
-        }
-    }
+    fun delete(id: Long): Boolean = notes
+        .indexOfFirst { it.id == id }
+        .takeIf { it >= 0 }
+        ?.also(notes::removeAt)
+        .let { it != null }
 }
