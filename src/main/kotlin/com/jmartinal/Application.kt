@@ -3,7 +3,8 @@ package com.jmartinal
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import com.jmartinal.plugins.*
+import com.jmartinal.plugins.routing.configureRouting
+import com.jmartinal.plugins.serialization.configureSerialization
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
@@ -12,4 +13,5 @@ fun main() {
 
 fun Application.module() {
     configureRouting()
+    configureSerialization()
 }
