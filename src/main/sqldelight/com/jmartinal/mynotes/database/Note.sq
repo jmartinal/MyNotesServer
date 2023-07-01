@@ -14,6 +14,9 @@ SELECT * FROM DbNote;
 selectById:
 SELECT * FROM DbNote WHERE id = ?;
 
+selectLastInsertedNote:
+SELECT * FROM DbNote WHERE id = last_inserted_rowid();
+
 update:
 UPDATE DbNote SET title = ?, description = ?, type = ? WHERE id = ?;
 
